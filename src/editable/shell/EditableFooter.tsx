@@ -1,44 +1,65 @@
-'use client'
-
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { Globe2, Mail, Radio, Rss, Send, Share2 } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
-import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
+
+const socials = [Rss, Mail, Globe2, Share2]
 
 export function EditableFooter() {
   const year = new Date().getFullYear()
-  const { session, logout } = useEditableLocalAuthSession()
+  const columns = globalContent.footer.columns
+  const resources = [
+    { label: 'Search archive', href: '/search' },
+    { label: 'Create account', href: '/signup' },
+    { label: 'Sign in', href: '/login' },
+    { label: 'Submit a release', href: '/create' },
+  ]
 
   return (
-    <footer className="border-t-8 border-[var(--slot4-accent)] bg-black text-white">
-      <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_.7fr_.7fr]">
+    <footer className="mt-auto border-t border-[var(--editable-border)] bg-[var(--slot4-surface-bg)] text-[var(--slot4-page-text)]">
+      <div className="mx-auto max-w-[var(--editable-container)] px-5 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_0.8fr_0.8fr_0.8fr]">
+          {/* Brand */}
           <div>
-            <Link href="/" className="editorial-brand text-5xl font-black text-[var(--slot4-accent)] sm:text-6xl">{SITE_CONFIG.name}</Link>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-white/62">{globalContent.footer?.description || SITE_CONFIG.description}</p>
-            <form action="/signup" className="mt-8 flex max-w-xl border border-white/35">
-              <input name="email" type="email" placeholder="Email for newsroom updates" className="min-w-0 flex-1 bg-transparent px-4 py-4 text-sm outline-none placeholder:text-white/40" />
-              <button className="bg-[var(--slot4-accent)] px-5 text-xs font-black uppercase tracking-[.14em]">Subscribe</button>
+            <Link href="/" className="flex items-center gap-2.5">
+              <img src="/favicon.ico" alt="Logo" className="h-8 w-8" />
+              <span className="editorial-brand text-xl font-extrabold">{SITE_CONFIG.name}</span>
+            </Link>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-[var(--slot4-muted-text)]">{globalContent.footer.description || SITE_CONFIG.description}</p>
+            
+            <form action="/signup" className="mt-6 flex max-w-sm items-center gap-2 rounded-full border border-[var(--editable-border)] bg-[var(--slot4-page-bg)] p-1.5">
+              <Mail className="ml-3 h-4 w-4 text-[var(--slot4-soft-muted-text)]" />
+              <input name="email" type="email" placeholder="Enter your email..." className="min-w-0 flex-1 bg-transparent px-1 py-2 text-sm outline-none placeholder:text-[var(--slot4-soft-muted-text)]" />
+              <button className="inline-flex items-center gap-1.5 rounded-full bg-[var(--slot4-dark-bg)] px-4 py-2 text-xs font-bold text-white transition hover:bg-[var(--slot4-accent)]"><Send className="h-3.5 w-3.5" /> Subscribe</button>
             </form>
           </div>
-          <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Explore</h3>
-            <div className="mt-4 grid gap-3">
-              <Link href="/search" className="group inline-flex items-center justify-between text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Archive<ArrowRight className="h-4 w-4" /></Link>
+
+          {columns.map((column) => (
+            <div key={column.title}>
+              <h3 className="text-sm font-extrabold">{column.title}</h3>
+              <div className="mt-5 grid gap-3">
+                {column.links.map((link) => (
+                  <Link key={`${column.title}-${link.label}`} href={link.href} className="text-sm font-medium text-[var(--slot4-muted-text)] transition hover:text-[var(--slot4-accent-strong)]">{link.label}</Link>
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
+
           <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Publication</h3>
-            <div className="mt-4 grid gap-3">
-              <Link href="/about" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">About</Link>
-              <Link href="/contact" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Contact</Link>
-              {session ? <><Link href="/create" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Publish</Link><button onClick={logout} className="text-left text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Logout</button></> : <><Link href="/login" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Log in</Link><Link href="/signup" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Subscribe</Link></>}
+            <h3 className="text-sm font-extrabold">Resources</h3>
+            <div className="mt-5 grid gap-3">
+              {resources.map((link) => (
+                <Link key={link.label} href={link.href} className="text-sm font-medium text-[var(--slot4-muted-text)] transition hover:text-[var(--slot4-accent-strong)]">{link.label}</Link>
+              ))}
             </div>
           </div>
         </div>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[var(--editable-border)] pt-6 text-center sm:flex-row sm:text-left">
+          <p className="text-xs font-medium text-[var(--slot4-soft-muted-text)]">© {year} {SITE_CONFIG.name}. {globalContent.footer.bottomNote}</p>
+          <p className="text-xs font-medium text-[var(--slot4-soft-muted-text)]">{globalContent.site.domain}</p>
+        </div>
       </div>
-      <div className="border-t border-white/20 px-4 py-5 text-center text-[10px] font-black uppercase tracking-[.18em] text-white/45">© {year} {SITE_CONFIG.name}. Independent media and public information.</div>
     </footer>
   )
 }

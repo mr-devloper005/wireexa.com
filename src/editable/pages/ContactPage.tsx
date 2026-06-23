@@ -1,41 +1,87 @@
 'use client'
 
-import { FileText, Mail, Megaphone } from 'lucide-react'
+import { Clock, FileText, Globe2, Mail, MapPin, Megaphone, ShieldCheck, Sparkles } from 'lucide-react'
 import { pagesContent } from '@/editable/content/pages.content'
+import { globalContent } from '@/editable/content/global.content'
 import { EditableContactLeadForm } from '@/editable/components/EditableContactLeadForm'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
 const desks = [
-  { icon: FileText, title: 'Editorial desk', body: 'Send story ideas, corrections, source material, and publication questions.' },
-  { icon: Megaphone, title: 'Media partnerships', body: 'Discuss distribution, syndication, newsroom collaborations, and campaigns.' },
-  { icon: Mail, title: 'General support', body: 'Reach the team for account, publishing, or site-related help.' },
+  { icon: Megaphone, title: 'Distribution desk', body: 'Launch a release, schedule a campaign, or ask about syndication reach and category routing.' },
+  { icon: Globe2, title: 'Media partnerships', body: 'Newsrooms, aggregators, and outlets looking to receive or syndicate coverage.' },
+  { icon: FileText, title: 'Platform support', body: 'Account, publishing, and workspace help for existing members.' },
 ]
+
+const expectations = [
+  { icon: Clock, title: 'Under 4 hours', body: 'Typical first response during business hours.' },
+  { icon: ShieldCheck, title: 'Routed correctly', body: 'Your request reaches the right team, not a shared inbox.' },
+  { icon: Sparkles, title: 'Real humans', body: 'Specialists who understand distribution and PR.' },
+]
+
+const trust = ['12,000+ media outlets', '60+ countries', '98% delivery rate', 'GDPR-aware handling']
 
 export default function ContactPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="border-b border-black bg-white">
-          <div className="mx-auto max-w-[var(--editable-container)] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#c92f2f]">{pagesContent.contact.eyebrow}</p>
-            <h1 className="editorial-brand mt-4 max-w-5xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">{pagesContent.contact.title}</h1>
-            <p className="mt-6 max-w-2xl border-l-4 border-[#c92f2f] pl-5 text-base font-semibold leading-8 text-black/65">{pagesContent.contact.description}</p>
+      <main className="bg-[var(--slot4-page-bg)] text-[var(--slot4-page-text)]">
+        {/* Hero */}
+        <section className="relative overflow-hidden border-b border-[var(--editable-border)] bg-[var(--slot4-surface-bg)]">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[var(--slot4-accent)]/12 blur-3xl wx-float" />
+          <div className="mx-auto max-w-[var(--editable-container)] px-5 py-14 sm:px-6 lg:px-8 lg:py-20">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-[var(--slot4-panel-bg)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--slot4-accent-strong)]"><Mail className="h-3.5 w-3.5" /> {pagesContent.contact.eyebrow}</span>
+            <h1 className="mt-6 max-w-3xl text-4xl font-black leading-[1.04] tracking-[-0.035em] sm:text-6xl">{pagesContent.contact.title}</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--slot4-muted-text)]">{pagesContent.contact.description}</p>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {trust.map((item) => (
+                <span key={item} className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-[var(--slot4-page-bg)] px-4 py-2 text-xs font-bold text-[var(--slot4-muted-text)]"><ShieldCheck className="h-3.5 w-3.5 text-[var(--slot4-accent)]" /> {item}</span>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="border-b border-black bg-[#171717] text-white lg:border-b-0 lg:border-r">
-            {desks.map((desk, index) => (
-              <div key={desk.title} className="border-b border-white/25 p-7 last:border-b-0 sm:p-9">
-                <div className="flex items-center justify-between"><desk.icon className="h-5 w-5 text-[#f34a43]" /><span className="text-xs font-black text-white/45">0{index + 1}</span></div>
-                <h2 className="editorial-serif mt-6 text-3xl font-black">{desk.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-white/65">{desk.body}</p>
+        <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-5 py-14 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-20">
+          {/* Left: info + expectations */}
+          <aside className="space-y-5">
+            <div data-reveal="left" className="rounded-3xl border border-[var(--editable-border)] bg-[var(--slot4-surface-bg)] p-7">
+              <h2 className="text-lg font-black tracking-[-0.02em]">Reach the right team</h2>
+              <div className="mt-5 grid gap-5">
+                {desks.map((desk, index) => (
+                  <div key={desk.title} className="grid grid-cols-[auto_1fr] gap-4">
+                    <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--slot4-accent-soft)] text-[var(--slot4-accent)]"><desk.icon className="h-5 w-5" /></span>
+                    <div>
+                      <p className="text-sm font-bold">{desk.title} <span className="ml-1 text-xs font-bold text-[var(--slot4-soft-muted-text)]">0{index + 1}</span></p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--slot4-muted-text)]">{desk.body}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+              <div className="mt-6 grid gap-3 border-t border-[var(--editable-border)] pt-6 text-sm font-semibold text-[var(--slot4-muted-text)]">
+                <p className="inline-flex items-center gap-2"><Globe2 className="h-4 w-4 text-[var(--slot4-accent)]" /> {globalContent.site.domain}</p>
+                <p className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-[var(--slot4-accent)]" /> Distributed media network · global</p>
+              </div>
+            </div>
+
+            <div data-reveal="left" className="wx-on-dark rounded-3xl bg-[var(--slot4-dark-bg)] p-7 text-white">
+              <h2 className="text-lg font-black tracking-[-0.02em]">What to expect</h2>
+              <div className="mt-5 grid gap-4">
+                {expectations.map((item) => (
+                  <div key={item.title} className="grid grid-cols-[auto_1fr] gap-3">
+                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/10 text-[var(--slot4-accent-2)]"><item.icon className="h-4 w-4" /></span>
+                    <div>
+                      <p className="text-sm font-bold">{item.title}</p>
+                      <p className="text-sm leading-6 text-white/60">{item.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </aside>
-          <div className="p-6 sm:p-10 lg:p-14">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c92f2f]">Send a message</p>
-            <h2 className="editorial-serif mt-3 text-4xl font-black">{pagesContent.contact.formTitle}</h2>
+
+          {/* Right: form */}
+          <div data-reveal="right" className="rounded-[2rem] border border-[var(--editable-border)] bg-[var(--slot4-surface-bg)] p-7 shadow-[0_30px_80px_-50px_rgba(20,18,80,0.6)] sm:p-10">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--slot4-accent)]">Send a message</p>
+            <h2 className="mt-2 text-3xl font-black tracking-[-0.03em]">{pagesContent.contact.formTitle}</h2>
+            <p className="mt-3 text-sm leading-7 text-[var(--slot4-muted-text)]">Tell us about your release, campaign, or partnership and we&apos;ll route it to the right specialist.</p>
             <EditableContactLeadForm />
           </div>
         </section>
